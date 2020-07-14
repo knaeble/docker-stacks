@@ -14,6 +14,9 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 USER root
 
+# run as jupyer lab
+ENV JUPYTER_ENABLE_LAB=yes
+
 # R pre-requisites
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -70,6 +73,7 @@ RUN conda install --quiet --yes \
     'r-tidyverse=1.3*' \
     'rpy2=3.1*' \
     && \
+    conda install --quiet --yes sos sos-pbs sos-notebook jupyterlab-sos sos-bash sos-python sos-r -c conda-forge && \
     conda clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
